@@ -12,7 +12,7 @@ function Navbar({ role, onRoleChange, currentPage, navigate }) {
 
   return (
     <nav className="navbar">
-      <span className="logo">HearBack</span>
+      <span className="logo">CCATrack</span>
 
       <div className="nav-links">
         {links.map((link) => (
