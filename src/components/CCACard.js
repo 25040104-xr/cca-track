@@ -1,4 +1,4 @@
-function CCACard({ cca }) {
+function CCACard({ cca, onSelect }) {
   return (
     <div className="cca-card">
       <span className="cca-category">{cca.category}</span>
@@ -6,6 +6,9 @@ function CCACard({ cca }) {
       <p>{cca.description}</p>
       <p className="cca-schedule">🕒 {cca.trainingSchedule}</p>
       <p className="cca-response">Replies within {cca.responseDays} days</p>
+      <button className="btn" onClick={() => onSelect(cca.id)}>
+        View details
+      </button>
     </div>
   );
 }
