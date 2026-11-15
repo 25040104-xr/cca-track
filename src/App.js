@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import CCADirectoryPage from "./pages/CCADirectoryPage";
 import CCADetailPage from "./pages/CCADetailPage";
+import ApplyFormPage from "./pages/ApplyFormPage";
 
 function App() {
   const [role, setRole] = useState("student");
@@ -25,6 +26,8 @@ function App() {
         return <CCADirectoryPage navigate={navigate} />;
       case "ccaDetail":
         return <CCADetailPage ccaId={params.ccaId} navigate={navigate} />;
+      case "apply":
+        return <ApplyFormPage ccaId={params.ccaId} navigate={navigate} />;
       default:
         return <p className="page">🚧 This page is coming soon.</p>;
     }
