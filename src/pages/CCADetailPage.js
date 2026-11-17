@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCCAById } from "../services/ccaService";
+import CCABanner from "../components/CCABanner";
+import TagList from "../components/TagList";
 
 function CCADetailPage({ ccaId, navigate }) {
   const [cca, setCca] = useState(null);
@@ -34,22 +36,44 @@ function CCADetailPage({ ccaId, navigate }) {
       </button>
 
       <div className="detail-card">
-        <span className="cca-category">{cca.category}</span>
-        <h2>{cca.name}</h2>
-        <p>{cca.description}</p>
+        <CCABanner cca={cca} size="large" />
 
-        <ul className="detail-list">
-          <li>🕒 <strong>Training:</strong> {cca.trainingSchedule}</li>
-          <li>📍 <strong>Venue:</strong> {cca.venue}</li>
-          <li>📬 <strong>Reply time:</strong> within {cca.responseDays} days of applying</li>
-        </ul>
+        <div className="detail-body">
+          <span className="cca-category">{cca.category}</span>
+          <h2>{cca.name}</h2>
+          <TagList tags={cca.tags} />
 
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("apply", { ccaId: cca.id })}
-        >
-          Apply now
-        </button>
+          <h3>About</h3>
+          <p>{cca.about || cca.description}</p>
+
+          {cca.activities && cca.activities.length > 0 && (
+            <>
+              <h3>What you'll do</h3>
+              <ul className="activity-list">
+                {cca.activities.map((activity) => (
+                  <li key={activity}>{activity}</li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          <h3>Details</h3>
+          <ul className="detail-list">
+            <li>🕒 <strong>Training:</strong> {cca.trainingSchedule}</li>
+            {cca.commitment && (
+              <li>📅 <strong>Commitment:</strong> {cca.commitment}</li>
+            )}
+            <li>📍 <strong>Venue:</strong> {cca.venue}</li>
+            <li>📬 <strong>Reply time:</strong> within {cca.responseDays} days of applying</li>
+          </ul>
+
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("apply", { ccaId: cca.id })}
+          >
+            Apply now
+          </button>
+        </div>
       </div>
     </div>
   );
