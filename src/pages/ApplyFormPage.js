@@ -2,14 +2,17 @@ import { useState } from "react";
 import { getCCAById } from "../services/ccaService";
 import { validateApplication } from "../utils/validation";
 import FormField from "../components/FormField";
+import { formatDate } from "../utils/dates";
 
 const emptyForm = { phone: "", experience: "", reason: "", agree: false };
 
-function ApplyFormPage({ ccaId, navigate }) {
+// onApply: function from App.js that saves the new application and gives it back
+// existingApplication: the student's current application to this CCA, if any
+function ApplyFormPage({ ccaId, navigate, onApply, existingApplication }) {
   const cca = getCCAById(ccaId);
   const [values, setValues] = useState(emptyForm);
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [newApplication, setNewApplication] = useState(null);
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -24,7 +27,7 @@ function ApplyFormPage({ ccaId, navigate }) {
     const newErrors = validateApplication(values);
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      setSubmitted(true);
+      setNewApplication(onApply(cca, values));
     }
   }
 
@@ -41,10 +44,7 @@ function ApplyFormPage({ ccaId, navigate }) {
     );
   }
 
-  if (submitted) {
-    const replyBy = new Date();
-    replyBy.setDate(replyBy.getDate() + cca.responseDays);
-
+  if (newApplication) {
     return (
       <div className="page success-box">
         <h2>✅ Application submitted!</h2>
@@ -52,18 +52,35 @@ function ApplyFormPage({ ccaId, navigate }) {
           Your application to <strong>{cca.name}</strong> has been received.
         </p>
         <p>
-          Expect a reply by{" "}
-          <strong>
-            {replyBy.toLocaleDateString("en-SG", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
-          </strong>
-          .
+          Expect a reply by <strong>{formatDate(newApplication.expectedReplyBy)}</strong>.
         </p>
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("applicationDetail", { applicationId: newApplication.id })}
+        >
+          Track this application
+        </button>{" "}
         <button className="btn" onClick={() => navigate("directory")}>
           Browse more CCAs
+        </button>
+      </div>
+    );
+  }
+
+  // Stop the student from applying twice to the same CCA
+  if (existingApplication) {
+    return (
+      <div className="page success-box">
+        <h2>You've already applied to {cca.name}</h2>
+        <p>You can check its status and next step in My Applications.</p>
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("applicationDetail", { applicationId: existingApplication.id })}
+        >
+          View my application
+        </button>{" "}
+        <button className="btn" onClick={() => navigate("directory")}>
+          Browse other CCAs
         </button>
       </div>
     );

@@ -12,6 +12,8 @@ npm start
 ```
  
 The app opens at `http://localhost:3000`.
+
+To run the automated tests: `npm test`
  
 Use the **"View as Student / View as Exco"** dropdown in the top-right corner to switch between the two user views. (Login will be added in CA2.)
  
@@ -46,8 +48,11 @@ Meanwhile, CCA excos manage applicants across scattered forms and apps, which ma
 - CCA directory with search and category filter
 - CCA detail page with description, activities, tags, commitment and expected reply time
 - Application form with validation and a success page showing the expected reply date
-- My Applications: status, next step and expected reply date for every application *(Person B)*
-- Notification centre for status updates *(Person B)*
+- My Applications: status, next step and expected reply date for every application, with summary counts, status filter and an overdue warning *(Person B)*
+- Application detail: status timeline, submitted answers and withdraw (with confirmation) *(Person B)*
+- Notification centre: unread/all filter, mark as read, mark all as read, open the related application *(Person B)*
+- Unread notification badge on the navbar *(Person B)*
+- Submitting the Apply form adds the application to My Applications and sends a "received" notification; applying twice to the same CCA is blocked *(Person B, with A's Apply form)*
 
 **Exco**
 - Applicant list with status filter and "pending too long" alerts *(Person C)*
@@ -55,7 +60,7 @@ Meanwhile, CCA excos manage applicants across scattered forms and apps, which ma
 - Manage CCA information *(Person C)*
 
  
-## 6. Pages & Navigation Flow
+## 5. Pages & Navigation Flow
  
 ```
 Student view
@@ -72,11 +77,11 @@ React Router is optional for CA1, so page switching is handled in `App.js` using
  
 ---
  
-## 7. Component Tree
+## 6. Component Tree
  
 ```
 App
-├── Navbar                      (role switch: student / exco)
+├── Navbar                      (role switch: student / exco, unread badge)
 │
 ├── CCADirectoryPage            [A]
 │   ├── SearchBar
@@ -92,14 +97,16 @@ App
 │
 ├── MyApplicationsPage          [B]
 │   ├── FilterBar
-│   ├── ApplicationCard (×n)
-│   │   └── StatusBadge
-│   └── EmptyState
+│   └── ApplicationCard (×n)
+│       ├── Emoji3D
+│       └── StatusBadge
 ├── ApplicationDetailPage       [B]
+│   ├── StatusBadge
 │   └── StatusTimeline
 ├── NotificationsPage           [B]
-│   ├── NotificationItem (×n)
-│   └── EmptyState
+│   ├── FilterBar
+│   └── NotificationItem (×n)
+│       └── Emoji3D
 │
 ├── ApplicantListPage           [C]
 │   ├── FilterBar
@@ -127,9 +134,9 @@ src/
  
 ---
 
-## 8. Mock Data & Planned Backend Entities
+## 7. Mock Data & Planned Backend Entities
  
-Mock data is stored in `src/data/`. Pages never import mock data directly. They call functions in `src/services/` (e.g. `getAllCCAs()`), which currently return `Promise.resolve(mockData)`. In CA2, only the service files need to change to `fetch()` calls. The pages stay the same.
+Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`, `students.js`). `stu-01` is the student we pretend is logged in, and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way. Pages never import mock data directly. They call functions in `src/services/` (e.g. `getAllCCAs()`), which currently return `Promise.resolve(mockData)`. In CA2, only the service files need to change to `fetch()` calls. The pages stay the same.
  
 **About the mock data:** CCA names and categories are based on RP's actual CCA list. Descriptions, schedules, venues, tags, activities and reply times are made up for the prototype.
  
@@ -145,7 +152,7 @@ Mock data is stored in `src/data/`. Pages never import mock data directly. They 
  
 ---
 
-## 9. Planned API Endpoints (CA2)
+## 8. Planned API Endpoints (CA2)
  
 | Method | Path | Purpose | Expected data |
 |---|---|---|---|
@@ -168,7 +175,7 @@ Mock data is stored in `src/data/`. Pages never import mock data directly. They 
  
 ---
 
-## 10. Team Contribution
+## 9. Team Contribution
  
 | Member | Role | Pages / components / features |
 |---|---|---|
@@ -180,6 +187,21 @@ Mock data is stored in `src/data/`. Pages never import mock data directly. They 
   
 
 ### [May]: Individual Contribution
+
+**Contribution summary:** I built Part B, the student's tracking side of the app:
+- **Pages:** `MyApplicationsPage`, `ApplicationDetailPage`, `NotificationsPage`
+- **Components:** `ApplicationCard`, `StatusBadge`, `StatusTimeline`, `NotificationItem`
+- **Logic and data:** `services/applicationService.js`, `services/notificationService.js`, `utils/statuses.js`, `utils/dates.js`, `data/applications.js`, `data/notifications.js`, `data/students.js`, `styles/myApplications.css`
+- **Integration:** `handleApply` in `App.js`, which connects the Apply form to My Applications and Notifications, and the unread badge in `Navbar`
+- **Tests:** `MyApplications.test.js`
+
+**React concepts used:** state lifted to `App.js` (`applications`, `notifications`) and passed down as props; updating arrays immutably with `map` and spread (withdraw, mark as read); lists rendered with `map`; conditional rendering (empty states, overdue warning, withdraw confirmation, unread badge).
+
+**Code explanation video:** *(link)*. Topic: `StatusTimeline`, which shows completed steps from `history` and works out the upcoming steps with `filter`.
+
+**Improvement after testing:** When we tested the whole flow, a student could submit the Apply form, but the new application never appeared in My Applications or Notifications. The student could also apply to the same CCA twice. I added `createApplication`, `getActiveApplication` and `createNotification` to the services, plus a `handleApply` function in `App.js` that adds the new application and a "received" notification to state. The Apply form now shows a "Track this application" button, or "You've already applied" if there is an active application. I also added an unread-count badge to the navbar, because unread updates were not visible from other pages.
+
+**Commits / PRs:** *(add PR links, e.g. Part B pages PR, improvements PR)*
  
 
 ### [Su]: Individual Contribution
@@ -187,7 +209,7 @@ Mock data is stored in `src/data/`. Pages never import mock data directly. They 
  
 ---
  
-## 11. GitHub Repository & Commit Insights
+## 10. GitHub Repository & Commit Insights
  
 **Repository:** [https://github.com/25040104-xr/cca-track]  
  
@@ -195,7 +217,7 @@ Mock data is stored in `src/data/`. Pages never import mock data directly. They 
  
 ---
  
-## 12. Screenshots
+## 11. Screenshots
  
  
 ---

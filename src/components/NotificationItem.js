@@ -8,10 +8,19 @@ function NotificationItem({ notification, cca, onOpen, onMarkRead }) {
   return (
     <li className={notification.read ? "notification-item" : "notification-item unread"}>
       <span className="notification-emoji">
-        <Emoji3D emoji={cca.emoji} size={36} />
+        <Emoji3D emoji={cca ? cca.emoji : "🔔"} size={36} />
       </span>
 
-      <div className="notification-body" onClick={() => onOpen(notification)}>
+      {/* role, tabIndex and onKeyDown let keyboard users open it with Enter too */}
+      <div
+        className="notification-body"
+        role="button"
+        tabIndex={0}
+        onClick={() => onOpen(notification)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") onOpen(notification);
+        }}
+      >
         <p className="notification-message">{notification.message}</p>
         <p className="notification-time">{formatDate(notification.createdAt)}</p>
       </div>
