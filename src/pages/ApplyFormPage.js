@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { getCCAById } from "../services/ccaService";
 import { validateApplication } from "../utils/validation";
+import { createApplication, findExistingApplication } from "../utils/createApplication";
+import { CURRENT_STUDENT_ID } from "../data/currentUser";
 import FormField from "../components/FormField";
 
 const emptyForm = { phone: "", experience: "", reason: "", agree: false };
 
-function ApplyFormPage({ ccaId, navigate }) {
+function ApplyFormPage({ ccaId, applications, addApplication, navigate }) {
   const cca = getCCAById(ccaId);
   const [values, setValues] = useState(emptyForm);
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [newApplication, setNewApplication] = useState(null);
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setValues({ ...values, [name]: type === "checkbox" ? checked : value });
+    // Clear this field's error once the user starts fixing it
     if (errors[name]) {
       setErrors({ ...errors, [name]: undefined });
     }
@@ -24,7 +27,9 @@ function ApplyFormPage({ ccaId, navigate }) {
     const newErrors = validateApplication(values);
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      setSubmitted(true);
+      const application = createApplication(CURRENT_STUDENT_ID, cca, values);
+      addApplication(application);
+      setNewApplication(application);
     }
   }
 
@@ -41,9 +46,9 @@ function ApplyFormPage({ ccaId, navigate }) {
     );
   }
 
-  if (submitted) {
-    const replyBy = new Date();
-    replyBy.setDate(replyBy.getDate() + cca.responseDays);
+  // Just submitted: show the success message
+  if (newApplication) {
+    const replyBy = new Date(newApplication.expectedReplyBy);
 
     return (
       <div className="page success-box">
@@ -62,9 +67,33 @@ function ApplyFormPage({ ccaId, navigate }) {
           </strong>
           .
         </p>
-        <button className="btn" onClick={() => navigate("directory")}>
-          Browse more CCAs
-        </button>
+        <div className="success-actions">
+          <button className="btn btn-primary" onClick={() => navigate("myApplications")}>
+            View my applications
+          </button>
+          <button className="btn" onClick={() => navigate("directory")}>
+            Browse more CCAs
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Already applied before: don't allow a second application
+  const existing = findExistingApplication(applications, CURRENT_STUDENT_ID, cca.id);
+  if (existing) {
+    return (
+      <div className="page">
+        <div className="no-results">
+          <h3>You've already applied to {cca.name}</h3>
+          <p>You can check the status of your application instead.</p>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("applicationDetail", { applicationId: existing.id })}
+          >
+            View application status
+          </button>
+        </div>
       </div>
     );
   }
