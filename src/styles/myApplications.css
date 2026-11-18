@@ -1,0 +1,287 @@
+/* Styles for Part B: My Applications, Application Detail, Notifications.
+   In its own file so it does not clash with App.css.
+   Uses the colour variables from App.css, e.g. var(--blue). */
+
+.page-intro {
+  margin-top: -6px;
+  margin-bottom: 20px;
+  color: var(--text-muted);
+}
+
+/* ===== Summary boxes ===== */
+.summary-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.summary-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  background: var(--grey-bg);
+  border-radius: var(--radius-small);
+}
+.summary-number {
+  font-size: 1.9rem;
+  font-weight: 900;
+}
+.summary-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.overdue-banner {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  background: var(--accent-light);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius-small);
+}
+
+/* ===== Application cards ===== */
+.application-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.application-card {
+  padding: 20px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+}
+.application-card:hover {
+  border-color: var(--text);
+}
+.application-card.overdue {
+  border-color: var(--accent);
+}
+.application-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.application-card-title {
+  flex: 1;
+}
+.application-card-title h3 {
+  margin: 0 0 2px;
+  font-size: 1.1rem;
+}
+.application-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: var(--grey-bg);
+  border-radius: var(--radius-small);
+}
+.application-emoji.large {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius);
+}
+.application-sub {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.application-next {
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+.application-reply {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+.application-reply.warning {
+  color: var(--accent-dark);
+}
+
+/* ===== Application detail ===== */
+.app-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.app-detail-header h1 {
+  margin: 2px 0 8px;
+}
+.info-message {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  background: #e3f5e8;
+  color: #1d5a37;
+  font-weight: 700;
+  border-radius: var(--radius-small);
+}
+.next-step-box {
+  border-color: var(--blue);
+  background: var(--blue-light);
+}
+.next-step-box .application-reply {
+  margin-top: 10px;
+}
+.answer p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+.answer .answer-label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.btn-block {
+  width: 100%;
+  margin-top: 10px;
+}
+.btn-danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+.btn-danger-outline {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.withdraw-confirm {
+  margin-top: 12px;
+  padding: 14px;
+  background: #fff5f5;
+  border: 2px solid var(--danger);
+  border-radius: var(--radius-small);
+}
+.withdraw-confirm p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+.withdraw-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ===== Status timeline ===== */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.timeline-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.timeline-dot {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  background: white;
+}
+.timeline-step.done .timeline-dot {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.timeline-step.done .dot-accepted {
+  background: #2e7a4c;
+  border-color: #2e7a4c;
+}
+.timeline-step.done .dot-not-selected {
+  background: #b4432f;
+  border-color: #b4432f;
+}
+.timeline-step.done .dot-withdrawn {
+  background: #888888;
+  border-color: #888888;
+}
+.detail-section .timeline-title {
+  margin: 0;
+  font-weight: 700;
+}
+.timeline-now {
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  color: white;
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+}
+.detail-section .timeline-date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.detail-section .timeline-note {
+  margin: 4px 0 0;
+  font-size: 0.92rem;
+}
+.timeline-step.upcoming .timeline-title {
+  color: var(--text-muted);
+}
+
+/* ===== Notifications ===== */
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--border);
+}
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 2px solid var(--border);
+}
+.notification-item.unread {
+  background: var(--blue-light);
+}
+.notification-body {
+  flex: 1;
+  cursor: pointer;
+}
+.notification-message {
+  margin: 0 0 4px;
+  line-height: 1.45;
+}
+.notification-item.unread .notification-message {
+  font-weight: 700;
+}
+.notification-time {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.notification-mark {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--blue);
+}
+.unread-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.notification-read-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
