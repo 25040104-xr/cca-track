@@ -30,6 +30,7 @@ function Navbar({ role, onRoleChange, currentPage, navigate }) {
         ccaTrack.
       </button>
 
+      {/* Only visible on small screens (see App.css) */}
       <button
         className="menu-toggle"
         onClick={() => setMenuOpen(!menuOpen)}
