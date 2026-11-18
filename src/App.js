@@ -9,22 +9,21 @@ import ApplicationDetailPage from "./pages/ApplicationDetailPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import { applicationData } from "./data/applications";
 import { notificationData } from "./data/notifications";
-import {
-  CURRENT_STUDENT_ID,
-  createApplication,
-  getActiveApplication,
-} from "./services/applicationService";
+import { CURRENT_STUDENT_ID } from "./data/currentUser";
 import {
   createNotification,
   getMyNotifications,
   countUnread,
 } from "./services/notificationService";
 import { formatDate } from "./utils/dates";
+import { getCCAById } from "./services/ccaService";
 
 function App() {
   const [role, setRole] = useState("student");
   const [page, setPage] = useState("directory");
   const [params, setParams] = useState({});
+
+  // Shared data: kept here so every page sees the same, up-to-date list
   const [applications, setApplications] = useState(applicationData);
   const [notifications, setNotifications] = useState(notificationData);
 
@@ -36,11 +35,15 @@ function App() {
   // Number shown on the Notifications link in the navbar
   const unreadCount = countUnread(getMyNotifications(notifications, CURRENT_STUDENT_ID));
 
-  // Called by ApplyFormPage when the form is valid.
-  // Adds the new application (so it shows in My Applications) and a
-  // "received" notification. New items go first because the lists show newest first.
-  function handleApply(cca, formValues) {
-    const newApplication = createApplication(applications, cca, formValues, CURRENT_STUDENT_ID);
+  function handleRoleChange(newRole) {
+    setRole(newRole);
+    navigate(newRole === "student" ? "directory" : "applicants");
+  }
+
+  // Called by the apply form: puts the new application at the top of the list,
+  // and adds a "received" notification so it shows in Notifications and the navbar badge
+  function addApplication(newApplication) {
+    const cca = getCCAById(newApplication.ccaId);
     const newNotification = createNotification(
       notifications,
       CURRENT_STUDENT_ID,
@@ -53,12 +56,6 @@ function App() {
     );
     setApplications([newApplication, ...applications]);
     setNotifications([newNotification, ...notifications]);
-    return newApplication;
-  }
-
-  function handleRoleChange(newRole) {
-    setRole(newRole);
-    navigate(newRole === "student" ? "directory" : "applicants");
   }
 
   function renderPage() {
@@ -67,18 +64,20 @@ function App() {
       case "directory":
         return <CCADirectoryPage navigate={navigate} />;
       case "ccaDetail":
-        return <CCADetailPage ccaId={params.ccaId} navigate={navigate} />;
+        return (
+          <CCADetailPage
+            ccaId={params.ccaId}
+            applications={applications}
+            navigate={navigate}
+          />
+        );
       case "apply":
         return (
           <ApplyFormPage
             ccaId={params.ccaId}
+            applications={applications}
+            addApplication={addApplication}
             navigate={navigate}
-            onApply={handleApply}
-            existingApplication={getActiveApplication(
-              applications,
-              CURRENT_STUDENT_ID,
-              params.ccaId
-            )}
           />
         );
       case "myApplications":

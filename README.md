@@ -52,7 +52,8 @@ Meanwhile, CCA excos manage applicants across scattered forms and apps, which ma
 - Application detail: status timeline, submitted answers and withdraw (with confirmation) *(Person B)*
 - Notification centre: unread/all filter, mark as read, mark all as read, open the related application *(Person B)*
 - Unread notification badge on the navbar *(Person B)*
-- Submitting the Apply form adds the application to My Applications and sends a "received" notification; applying twice to the same CCA is blocked *(Person B, with A's Apply form)*
+- Submitting the Apply form adds the application to My Applications, and applying twice to the same CCA is blocked *(Person A)*
+- A new application also creates a "received" notification *(Person B)*
 
 **Exco**
 - Applicant list with status filter and "pending too long" alerts *(Person C)*
@@ -192,14 +193,14 @@ Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications
 - **Pages:** `MyApplicationsPage`, `ApplicationDetailPage`, `NotificationsPage`
 - **Components:** `ApplicationCard`, `StatusBadge`, `StatusTimeline`, `NotificationItem`
 - **Logic and data:** `services/applicationService.js`, `services/notificationService.js`, `utils/statuses.js`, `utils/dates.js`, `data/applications.js`, `data/notifications.js`, `data/students.js`, `styles/myApplications.css`
-- **Integration:** `handleApply` in `App.js`, which connects the Apply form to My Applications and Notifications, and the unread badge in `Navbar`
+- **Integration:** the "received" notification added in `addApplication` (`App.js`) when a student applies, and the unread badge in `Navbar`
 - **Tests:** `MyApplications.test.js`
 
 **React concepts used:** state lifted to `App.js` (`applications`, `notifications`) and passed down as props; updating arrays immutably with `map` and spread (withdraw, mark as read); lists rendered with `map`; conditional rendering (empty states, overdue warning, withdraw confirmation, unread badge).
 
 **Code explanation video:** *(link)*. Topic: `StatusTimeline`, which shows completed steps from `history` and works out the upcoming steps with `filter`.
 
-**Improvement after testing:** When we tested the whole flow, a student could submit the Apply form, but the new application never appeared in My Applications or Notifications. The student could also apply to the same CCA twice. I added `createApplication`, `getActiveApplication` and `createNotification` to the services, plus a `handleApply` function in `App.js` that adds the new application and a "received" notification to state. The Apply form now shows a "Track this application" button, or "You've already applied" if there is an active application. I also added an unread-count badge to the navbar, because unread updates were not visible from other pages.
+**Improvement after testing:** When we tested the whole flow, the student got no notification after applying, and unread updates were only visible on the Notifications page itself. I added `createNotification` to `notificationService.js` and called it in `addApplication` (`App.js`), so every new application adds a "received" notification to state. I also added an unread-count badge to the navbar, calculated from the same state with `countUnread`. While testing I also made the Notifications page safe when an application is missing, and made notifications open with the Enter key. Xin Rui built the saving of new applications and the duplicate check, and I merged my changes with hers.
 
 **Commits / PRs:** *(add PR links, e.g. Part B pages PR, improvements PR)*
  

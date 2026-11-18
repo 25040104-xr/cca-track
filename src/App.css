@@ -771,3 +771,11 @@ img.cca-banner {
     padding: 20px;
   }
 }
+
+/* Buttons on the "Application submitted" page */
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}

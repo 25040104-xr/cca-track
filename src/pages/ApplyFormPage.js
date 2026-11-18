@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { getCCAById } from "../services/ccaService";
 import { validateApplication } from "../utils/validation";
+import { createApplication, findExistingApplication } from "../utils/createApplication";
+import { CURRENT_STUDENT_ID } from "../data/currentUser";
 import FormField from "../components/FormField";
 import { formatDate } from "../utils/dates";
 
 const emptyForm = { phone: "", experience: "", reason: "", agree: false };
 
-// onApply: function from App.js that saves the new application and gives it back
-// existingApplication: the student's current application to this CCA, if any
-function ApplyFormPage({ ccaId, navigate, onApply, existingApplication }) {
+function ApplyFormPage({ ccaId, applications, addApplication, navigate }) {
   const cca = getCCAById(ccaId);
   const [values, setValues] = useState(emptyForm);
   const [errors, setErrors] = useState({});
@@ -17,6 +17,7 @@ function ApplyFormPage({ ccaId, navigate, onApply, existingApplication }) {
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setValues({ ...values, [name]: type === "checkbox" ? checked : value });
+    // Clear this field's error once the user starts fixing it
     if (errors[name]) {
       setErrors({ ...errors, [name]: undefined });
     }
@@ -27,7 +28,9 @@ function ApplyFormPage({ ccaId, navigate, onApply, existingApplication }) {
     const newErrors = validateApplication(values);
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      setNewApplication(onApply(cca, values));
+      const application = createApplication(CURRENT_STUDENT_ID, cca, values);
+      addApplication(application);
+      setNewApplication(application);
     }
   }
 
@@ -44,6 +47,7 @@ function ApplyFormPage({ ccaId, navigate, onApply, existingApplication }) {
     );
   }
 
+  // Just submitted: show the success message
   if (newApplication) {
     return (
       <div className="page success-box">
@@ -54,34 +58,33 @@ function ApplyFormPage({ ccaId, navigate, onApply, existingApplication }) {
         <p>
           Expect a reply by <strong>{formatDate(newApplication.expectedReplyBy)}</strong>.
         </p>
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("applicationDetail", { applicationId: newApplication.id })}
-        >
-          Track this application
-        </button>{" "}
-        <button className="btn" onClick={() => navigate("directory")}>
-          Browse more CCAs
-        </button>
+        <div className="success-actions">
+          <button className="btn btn-primary" onClick={() => navigate("myApplications")}>
+            View my applications
+          </button>
+          <button className="btn" onClick={() => navigate("directory")}>
+            Browse more CCAs
+          </button>
+        </div>
       </div>
     );
   }
 
-  // Stop the student from applying twice to the same CCA
-  if (existingApplication) {
+  // Already applied before: don't allow a second application
+  const existing = findExistingApplication(applications, CURRENT_STUDENT_ID, cca.id);
+  if (existing) {
     return (
-      <div className="page success-box">
-        <h2>You've already applied to {cca.name}</h2>
-        <p>You can check its status and next step in My Applications.</p>
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("applicationDetail", { applicationId: existingApplication.id })}
-        >
-          View my application
-        </button>{" "}
-        <button className="btn" onClick={() => navigate("directory")}>
-          Browse other CCAs
-        </button>
+      <div className="page">
+        <div className="no-results">
+          <h3>You've already applied to {cca.name}</h3>
+          <p>You can check the status of your application instead.</p>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("applicationDetail", { applicationId: existing.id })}
+          >
+            View application status
+          </button>
+        </div>
       </div>
     );
   }

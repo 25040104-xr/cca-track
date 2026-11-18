@@ -4,17 +4,13 @@ import { render, screen, fireEvent, within } from "@testing-library/react";
 import App from "./App";
 import { applicationData } from "./data/applications";
 import { ccas } from "./data/ccas";
-import {
-  isOverdue,
-  getActiveApplication,
-  createApplication,
-} from "./services/applicationService";
-import { addDays, formatDate } from "./utils/dates";
+import { isOverdue } from "./services/applicationService";
+import { findExistingApplication } from "./utils/createApplication";
+import { formatDate } from "./utils/dates";
 
 // ----- helper functions -----
 
-test("addDays and formatDate work across month ends", () => {
-  expect(addDays("2026-11-28", 7)).toBe("2026-12-05");
+test("formatDate turns YYYY-MM-DD into a readable date", () => {
   expect(formatDate("2026-12-05")).toBe("5 Dec 2026");
 });
 
@@ -25,22 +21,11 @@ test("an application is overdue only if still waiting and past the reply date", 
   expect(isOverdue(app04)).toBe(false);
 });
 
-test("getActiveApplication finds an application still in progress", () => {
-  // stu-01 applied to Handball (cca-02) and is still waiting
-  expect(getActiveApplication(applicationData, "stu-01", "cca-02").id).toBe("app-02");
-  // stu-01 was not selected for Badminton (cca-07), so they may apply again
-  expect(getActiveApplication(applicationData, "stu-01", "cca-07")).toBeUndefined();
-});
-
-test("createApplication sets status, history and expected reply date", () => {
-  const cca = { id: "cca-99", name: "Test CCA", responseDays: 7 };
-  const values = { phone: " 91234567 ", experience: "none", reason: "x".repeat(25) };
-  const app = createApplication(applicationData, cca, values, "stu-01");
-  expect(app.id).toBe("app-13");
-  expect(app.status).toBe("applied");
-  expect(app.phone).toBe("91234567");
-  expect(app.expectedReplyBy).toBe("2026-11-25");
-  expect(app.history).toHaveLength(1);
+test("findExistingApplication finds the student's application to a CCA", () => {
+  // stu-01 applied to Handball (cca-02)
+  expect(findExistingApplication(applicationData, "stu-01", "cca-02").id).toBe("app-02");
+  // stu-01 never applied to cca-50
+  expect(findExistingApplication(applicationData, "stu-01", "cca-50")).toBeUndefined();
 });
 
 // ----- pages -----
@@ -109,11 +94,13 @@ test("a new application appears in My Applications and Notifications", () => {
   expect(screen.getByLabelText("3 unread")).toBeInTheDocument();
 });
 
-test("the student cannot apply twice to the same CCA", () => {
+test("the CCA page shows 'Already applied' instead of Apply now", () => {
   render(<App />);
-  openApplyForm("Handball"); // stu-01 already applied (app-02)
-  expect(screen.getByText("You've already applied to Handball")).toBeInTheDocument();
-  expect(screen.queryByRole("button", { name: "Submit application" })).not.toBeInTheDocument();
+  const card = screen.getByRole("heading", { name: "Handball" }).closest(".cca-card");
+  fireEvent.click(within(card).getByRole("button", { name: /View details/ }));
+  // stu-01 already applied to Handball (app-02)
+  expect(screen.getByRole("button", { name: /Already applied/ })).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Apply now" })).not.toBeInTheDocument();
 });
 
 // A CCA that stu-01 has never applied to (the first one in the directory that is free)
