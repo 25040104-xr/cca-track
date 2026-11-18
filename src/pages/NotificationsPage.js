@@ -36,9 +36,13 @@ function NotificationsPage({ notifications, setNotifications, applications, navi
     navigate("applicationDetail", { applicationId: notification.applicationId });
   }
 
-  // Find which CCA a notification is about (to show its emoji)
+  // Find which CCA a notification is about (to show its emoji).
+  // Gives back null if the application is missing, so the page does not crash.
   function getCCAOfNotification(notification) {
     const application = applications.filter((a) => a.id === notification.applicationId)[0];
+    if (!application) {
+      return null;
+    }
     return getCCAById(application.ccaId);
   }
 

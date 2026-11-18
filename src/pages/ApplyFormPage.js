@@ -4,6 +4,7 @@ import { validateApplication } from "../utils/validation";
 import { createApplication, findExistingApplication } from "../utils/createApplication";
 import { CURRENT_STUDENT_ID } from "../data/currentUser";
 import FormField from "../components/FormField";
+import { formatDate } from "../utils/dates";
 
 const emptyForm = { phone: "", experience: "", reason: "", agree: false };
 
@@ -48,8 +49,6 @@ function ApplyFormPage({ ccaId, applications, addApplication, navigate }) {
 
   // Just submitted: show the success message
   if (newApplication) {
-    const replyBy = new Date(newApplication.expectedReplyBy);
-
     return (
       <div className="page success-box">
         <h2>✅ Application submitted!</h2>
@@ -57,15 +56,7 @@ function ApplyFormPage({ ccaId, applications, addApplication, navigate }) {
           Your application to <strong>{cca.name}</strong> has been received.
         </p>
         <p>
-          Expect a reply by{" "}
-          <strong>
-            {replyBy.toLocaleDateString("en-SG", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
-          </strong>
-          .
+          Expect a reply by <strong>{formatDate(newApplication.expectedReplyBy)}</strong>.
         </p>
         <div className="success-actions">
           <button className="btn btn-primary" onClick={() => navigate("myApplications")}>

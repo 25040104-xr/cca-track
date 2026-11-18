@@ -1,8 +1,8 @@
 import { TODAY } from "../utils/dates";
 
-// No login in CA1, so we pretend this student is logged in.
-// In CA2 this will come from the logged-in user.
-export const CURRENT_STUDENT_ID = "stu-01";
+// The "logged in" student. Defined once in data/currentUser.js and shared here
+// so the Part B pages can keep importing it from this service.
+export { CURRENT_STUDENT_ID } from "../data/currentUser";
 
 // Only the applications that belong to this student
 export function getMyApplications(applications, studentId) {
@@ -27,3 +27,4 @@ export function isOverdue(application) {
     application.expectedReplyBy < TODAY
   );
 }
+

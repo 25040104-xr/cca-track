@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-function Navbar({ role, onRoleChange, currentPage, navigate }) {
+// unreadCount: number of unread notifications, shown as a badge on "Notifications"
+function Navbar({ role, onRoleChange, currentPage, navigate, unreadCount = 0 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const studentLinks = [
@@ -49,6 +50,11 @@ function Navbar({ role, onRoleChange, currentPage, navigate }) {
               onClick={() => handleNavigate(link.page)}
             >
               {link.label}
+              {link.page === "notifications" && unreadCount > 0 && (
+                <span className="nav-badge" aria-label={unreadCount + " unread"}>
+                  {unreadCount}
+                </span>
+              )}
             </button>
           ))}
         </div>
