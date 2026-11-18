@@ -13,9 +13,8 @@ export function countUnread(notifications) {
 // Builds a new (unread) notification for a student.
 // In CA2 the backend will create these automatically.
 export function createNotification(notifications, studentId, applicationId, message) {
-  const number = String(notifications.length + 1).padStart(2, "0");
   return {
-    id: "noti-" + number,
+    id: "noti-" + (notifications.length + 1),
     studentId: studentId,
     applicationId: applicationId,
     message: message,

@@ -1,9 +1,5 @@
 import { TODAY } from "../utils/dates";
 
-// The "logged in" student. Defined once in data/currentUser.js and shared here
-// so the Part B pages can keep importing it from this service.
-export { CURRENT_STUDENT_ID } from "../data/currentUser";
-
 // Only the applications that belong to this student
 export function getMyApplications(applications, studentId) {
   return applications.filter((application) => application.studentId === studentId);

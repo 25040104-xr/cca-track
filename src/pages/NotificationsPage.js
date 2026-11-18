@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getMyNotifications, countUnread } from "../services/notificationService";
-import { CURRENT_STUDENT_ID } from "../services/applicationService";
+import { CURRENT_STUDENT_ID } from "../data/currentUser";
 import { getCCAById } from "../services/ccaService";
 import NotificationItem from "../components/NotificationItem";
 import FilterBar from "../components/FilterBar";
