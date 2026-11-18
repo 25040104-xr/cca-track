@@ -202,7 +202,9 @@ Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications
 
 **Improvement after testing:** When we tested the whole flow, the student got no notification after applying, and unread updates were only visible on the Notifications page itself. I added `createNotification` to `notificationService.js` and called it in `addApplication` (`App.js`), so every new application adds a "received" notification to state. I also added an unread-count badge to the navbar, calculated from the same state with `countUnread`. While testing I also made the Notifications page safe when an application is missing, and made notifications open with the Enter key. Xin Rui built the saving of new applications and the duplicate check, and I merged my changes with hers.
 
-**Commits / PRs:** *(add PR links, e.g. Part B pages PR, improvements PR)*
+**Commits / PRs:**
+- [PR #7](https://github.com/25040104-xr/cca-track/pull/7): Part B pages (My Applications, Application Detail, Notifications) and mock data
+- [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fixes, students.js, tests, README)
  
 
 ### [Su]: Individual Contribution
