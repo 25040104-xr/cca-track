@@ -17,20 +17,12 @@ npm start
 ```
 
 The app opens at `http://localhost:3000`.
-<<<<<<< HEAD
- 
-Use the **"View as Student / View as Exco"** dropdown in the top-right corner to switch between the two user views. (Login will be added in CA2.)
- 
-=======
-
-To run the automated tests: `npm test`
 
 - Use the **"View as Student / Exco"** switch in the top-right corner to change between the two user views. (Login will be added in CA2.)
 - The student view is logged in as `stu-01`.
 - The 3D illustrations and the Lato font load from the internet. Without internet, the app still works and shows normal emojis instead.
 - CA1 has no backend, so new applications, status changes and notifications are kept in React state. They reset when the page is refreshed.
 
->>>>>>> 03e7b82fcff7847bb95a37cf043d84743c60029e
 ---
 
 ## 2. Problem Statement
@@ -187,17 +179,9 @@ src/
 
 ---
 
-<<<<<<< HEAD
-## 7. Mock Data & Planned Backend Entities
- 
-Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`; `students.js` and `trialSessions.js` by Part C). `stu-01` is the student we pretend is logged in, and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way. Pages never import mock data directly. They call functions in `src/services/` (e.g. `getAllCCAs()`), which currently return `Promise.resolve(mockData)`. In CA2, only the service files need to change to `fetch()` calls. The pages stay the same.
- 
-**About the mock data:** CCA names and categories are based on RP's actual CCA list. Descriptions, schedules, venues, tags, activities and reply times are made up for the prototype.
- 
-=======
 ## 8. Mock Data & Planned Backend Entities
 
-Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`, `students.js`). `stu-01` is the student we pretend is logged in (`data/currentUser.js`), and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way.
+Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`; `students.js` and `trialSessions.js` by Part C). `stu-01` is the student we pretend is logged in (`data/currentUser.js`), and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way.
 
 CCA data is read through `services/ccaService.js` (e.g. `getAllCCAs()`), and applications and notifications through `services/applicationService.js` and `services/notificationService.js`. These functions currently return the mock data. Applications and notifications start from the mock data and are then kept in `App.js` state, so changes made while using the app (applying, withdrawing, marking as read, updating status) show up on every page.
 
@@ -205,7 +189,6 @@ In CA2, the service functions will use `fetch()` to call our backend, pages will
 
 **About the mock data:** the 54 CCA names and 6 categories are based on RP's actual CCA list. Descriptions, schedules, venues, tags, activities, reply times, students, applications and notifications are made up for the prototype.
 
->>>>>>> 03e7b82fcff7847bb95a37cf043d84743c60029e
 | Entity | Fields |
 |---|---|
 | **Student** | id, name, email, course |
@@ -248,8 +231,8 @@ In CA2, the service functions will use `fetch()` to call our backend, pages will
 | Member | GitHub | Role | Pages / components / features |
 |---|---|---|---|
 | Xinrui (Leader) | 25040104-xr | A: Browse & Apply | CCADirectoryPage, CCADetailPage, ApplyFormPage, CCACard, CCABanner, Emoji3D, TagList, SearchBar, FilterBar, FormField, ccaService, validation.js, createApplication.js; App.js navigation and shared state, Navbar, App.css design system |
-| May | maypoe82 | B: My Applications | MyApplicationsPage, ApplicationDetailPage, NotificationsPage, ApplicationCard, StatusBadge, StatusTimeline, NotificationItem, applicationService, notificationService, statuses.js, dates.js, mock data (applications, notifications, students), tests |
-| Su | [username] | C: Exco Dashboard | ApplicantListPage, ApplicantDetailPage, ManageCCAPage, ApplicantRow, ConfirmDialog, EmptyState, trialSessions.js |
+| May | maypoe82 | B: My Applications | MyApplicationsPage, ApplicationDetailPage, NotificationsPage, ApplicationCard, StatusBadge, StatusTimeline, NotificationItem, applicationService, notificationService, statuses.js, dates.js, mock data (applications, notifications) |
+| Su | [username] | C: Exco Dashboard | ApplicantListPage, ApplicantDetailPage, ManageCCAPage, ApplicantRow, ConfirmDialog, EmptyState, students.js, trialSessions.js |
 
 ### Xinrui: Individual Contribution
 
@@ -309,14 +292,10 @@ I asked two classmates to try the CCA directory and details page, then made chan
 
 **Commits / PRs:**
 - [PR #7](https://github.com/25040104-xr/cca-track/pull/7): Part B pages (My Applications, Application Detail, Notifications) and mock data
-<<<<<<< HEAD
 - [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fix, README)
+- Cleanup PR: removed tests (not in CA1 scope), simplified code to lesson level, left `students.js` for Part C
 
 **AI use:** Claude (AI) helped me test my pages, find bugs, merge my branch with main, and draft this README section. I reviewed all changes and can explain them.
- 
-=======
-- [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fixes, students.js, tests, README)
->>>>>>> 03e7b82fcff7847bb95a37cf043d84743c60029e
 
 ### Su: Individual Contribution
 *(to be filled in by Su)*
