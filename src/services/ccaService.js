@@ -1,10 +1,9 @@
 import { ccas } from "../data/ccas";
 
 export function getAllCCAs() {
-  return Promise.resolve(ccas);
+  return ccas;
 }
 
 export function getCCAById(id) {
-  return Promise.resolve(ccas.find((cca) => cca.id === id));
+  return ccas.find((cca) => cca.id === id);
 }
-

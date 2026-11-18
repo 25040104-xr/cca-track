@@ -14,7 +14,6 @@ function Navbar({ role, onRoleChange, currentPage, navigate }) {
   ];
   const links = role === "student" ? studentLinks : excoLinks;
 
-  // Close the mobile menu after the user picks a page
   function handleNavigate(page) {
     navigate(page);
     setMenuOpen(false);
@@ -27,7 +26,9 @@ function Navbar({ role, onRoleChange, currentPage, navigate }) {
 
   return (
     <nav className="navbar">
-      <span className="logo">CCATrack</span>
+      <button className="logo" onClick={() => handleNavigate(links[0].page)}>
+        ccaTrack.
+      </button>
 
       <button
         className="menu-toggle"
@@ -51,10 +52,13 @@ function Navbar({ role, onRoleChange, currentPage, navigate }) {
           ))}
         </div>
 
-        <select className="role-switch" value={role} onChange={handleRoleChange}>
-          <option value="student">View as Student</option>
-          <option value="exco">View as Exco</option>
-        </select>
+        <label className="role-switch-wrap">
+          View as
+          <select className="role-switch" value={role} onChange={handleRoleChange}>
+            <option value="student">Student</option>
+            <option value="exco">Exco</option>
+          </select>
+        </label>
       </div>
     </nav>
   );

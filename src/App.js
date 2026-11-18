@@ -29,7 +29,15 @@ function App() {
       case "apply":
         return <ApplyFormPage ccaId={params.ccaId} navigate={navigate} />;
       default:
-        return <p className="page">🚧 This page is coming soon.</p>;
+        return (
+          <div className="page">
+            <div className="coming-soon">
+              <p className="no-results-icon">🚧</p>
+              <h3>This page is coming soon</h3>
+              <p>Our team is still building this part. Check back later!</p>
+            </div>
+          </div>
+        );
     }
   }
 
