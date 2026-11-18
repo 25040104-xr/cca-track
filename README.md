@@ -181,7 +181,7 @@ src/
 
 ## 8. Mock Data & Planned Backend Entities
 
-Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`; `students.js` and `trialSessions.js` by Part C). `stu-01` is the student we pretend is logged in (`data/currentUser.js`), and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way.
+Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`, `students.js`). `stu-01` is the student we pretend is logged in (`data/currentUser.js`), and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way.
 
 CCA data is read through `services/ccaService.js` (e.g. `getAllCCAs()`), and applications and notifications through `services/applicationService.js` and `services/notificationService.js`. These functions currently return the mock data. Applications and notifications start from the mock data and are then kept in `App.js` state, so changes made while using the app (applying, withdrawing, marking as read, updating status) show up on every page.
 
@@ -284,18 +284,15 @@ I asked two classmates to try the CCA directory and details page, then made chan
 - **Logic and data:** `services/applicationService.js`, `services/notificationService.js`, `utils/statuses.js`, `utils/dates.js`, `data/applications.js`, `data/notifications.js`, `styles/myApplications.css`
 - **Integration:** the "received" notification added in `addApplication` (`App.js`) when a student applies, and the unread badge in `Navbar`
 
-**React concepts used:** `useState` (filters, withdraw confirmation); state kept in `App.js` (`applications`, `notifications`) and passed down as props, including functions as props (`onSelect`, `onMarkRead`); updating arrays with `map` and spread without changing the old state (withdraw, mark as read); lists rendered with `map` and `key`; `filter` for the status filters and counts; conditional rendering (empty states, overdue warning, withdraw confirmation, unread badge).
+**React concepts used:** state lifted to `App.js` (`applications`, `notifications`) and passed down as props; updating arrays immutably with `map` and spread (withdraw, mark as read); lists rendered with `map`; conditional rendering (empty states, overdue warning, withdraw confirmation, unread badge).
 
 **Code explanation video:** *(link)*. Topic: `StatusTimeline`, which shows completed steps from `history` and works out the upcoming steps with `filter`.
 
-**Improvement after testing:** When we tested the whole flow, the student got no notification after applying, and unread updates were only visible on the Notifications page itself. I added `createNotification` to `notificationService.js` and called it in `addApplication` (`App.js`), so every new application adds a "received" notification to state. I also added an unread-count badge to the navbar, calculated from the same state with `countUnread`. While testing I also made the Notifications page safe when an application is missing (it shows a 🔔 instead of crashing). Xin Rui built the saving of new applications and the duplicate check, and I merged my changes with hers.
+**Improvement after testing:** When we tested the whole flow, the student got no notification after applying, and unread updates were only visible on the Notifications page itself. I added `createNotification` to `notificationService.js` and called it in `addApplication` (`App.js`), so every new application adds a "received" notification to state. I also added an unread-count badge to the navbar, calculated from the same state with `countUnread`. While testing I also made the Notifications page safe when an application is missing, and made notifications open with the Enter key. Xin Rui built the saving of new applications and the duplicate check, and I merged my changes with hers.
 
 **Commits / PRs:**
 - [PR #7](https://github.com/25040104-xr/cca-track/pull/7): Part B pages (My Applications, Application Detail, Notifications) and mock data
-- [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fix, README)
-- Cleanup PR: removed tests (not in CA1 scope), simplified code to lesson level, left `students.js` for Part C
-
-**AI use:** Claude (AI) helped me test my pages, find bugs, merge my branch with main, and draft this README section. I reviewed all changes and can explain them.
+- [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fixes, README)
 
 ### Su: Individual Contribution
 *(to be filled in by Su)*
@@ -315,3 +312,12 @@ I asked two classmates to try the CCA directory and details page, then made chan
 *(Insert screenshots of: CCA directory, filtered results, no-results state, CCA details, form validation errors, submission success, "Already applied" button, My Applications, Application details, Notifications with unread badge, each exco page, and the mobile view)*
 
 ---
+
+## 13. AI Use & Credits
+
+We used Claude to help brainstorm and refine our problem statement, plan the page flow, data entities and API endpoints, explain React concepts and the Git workflow.
+
+**Credits**
+- 3D illustrations: [Microsoft Fluent Emoji 3D](https://github.com/microsoft/fluentui-emoji) (MIT licence), loaded via the jsDelivr CDN
+- Font: [Lato](https://fonts.google.com/specimen/Lato) from Google Fonts
+- CCA names and categories: Republic Polytechnic's CCA page
