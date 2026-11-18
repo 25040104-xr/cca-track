@@ -12,8 +12,6 @@ npm start
 ```
  
 The app opens at `http://localhost:3000`.
-
-To run the automated tests: `npm test`
  
 Use the **"View as Student / View as Exco"** dropdown in the top-right corner to switch between the two user views. (Login will be added in CA2.)
  
@@ -137,7 +135,7 @@ src/
 
 ## 7. Mock Data & Planned Backend Entities
  
-Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`, `students.js`). `stu-01` is the student we pretend is logged in, and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way. Pages never import mock data directly. They call functions in `src/services/` (e.g. `getAllCCAs()`), which currently return `Promise.resolve(mockData)`. In CA2, only the service files need to change to `fetch()` calls. The pages stay the same.
+Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications.js`; `students.js` and `trialSessions.js` by Part C). `stu-01` is the student we pretend is logged in, and `TODAY` is fixed to 18 Nov 2026 in `utils/dates.js` so the overdue examples (`app-02`, `app-10`) always show the same way. Pages never import mock data directly. They call functions in `src/services/` (e.g. `getAllCCAs()`), which currently return `Promise.resolve(mockData)`. In CA2, only the service files need to change to `fetch()` calls. The pages stay the same.
  
 **About the mock data:** CCA names and categories are based on RP's actual CCA list. Descriptions, schedules, venues, tags, activities and reply times are made up for the prototype.
  
@@ -192,19 +190,20 @@ Mock data is stored in `src/data/` (`ccas.js`, `applications.js`, `notifications
 **Contribution summary:** I built Part B, the student's tracking side of the app:
 - **Pages:** `MyApplicationsPage`, `ApplicationDetailPage`, `NotificationsPage`
 - **Components:** `ApplicationCard`, `StatusBadge`, `StatusTimeline`, `NotificationItem`
-- **Logic and data:** `services/applicationService.js`, `services/notificationService.js`, `utils/statuses.js`, `utils/dates.js`, `data/applications.js`, `data/notifications.js`, `data/students.js`, `styles/myApplications.css`
+- **Logic and data:** `services/applicationService.js`, `services/notificationService.js`, `utils/statuses.js`, `utils/dates.js`, `data/applications.js`, `data/notifications.js`, `styles/myApplications.css`
 - **Integration:** the "received" notification added in `addApplication` (`App.js`) when a student applies, and the unread badge in `Navbar`
-- **Tests:** `MyApplications.test.js`
 
-**React concepts used:** state lifted to `App.js` (`applications`, `notifications`) and passed down as props; updating arrays immutably with `map` and spread (withdraw, mark as read); lists rendered with `map`; conditional rendering (empty states, overdue warning, withdraw confirmation, unread badge).
+**React concepts used:** `useState` (filters, withdraw confirmation); state kept in `App.js` (`applications`, `notifications`) and passed down as props, including functions as props (`onSelect`, `onMarkRead`); updating arrays with `map` and spread without changing the old state (withdraw, mark as read); lists rendered with `map` and `key`; `filter` for the status filters and counts; conditional rendering (empty states, overdue warning, withdraw confirmation, unread badge).
 
 **Code explanation video:** *(link)*. Topic: `StatusTimeline`, which shows completed steps from `history` and works out the upcoming steps with `filter`.
 
-**Improvement after testing:** When we tested the whole flow, the student got no notification after applying, and unread updates were only visible on the Notifications page itself. I added `createNotification` to `notificationService.js` and called it in `addApplication` (`App.js`), so every new application adds a "received" notification to state. I also added an unread-count badge to the navbar, calculated from the same state with `countUnread`. While testing I also made the Notifications page safe when an application is missing, and made notifications open with the Enter key. Xin Rui built the saving of new applications and the duplicate check, and I merged my changes with hers.
+**Improvement after testing:** When we tested the whole flow, the student got no notification after applying, and unread updates were only visible on the Notifications page itself. I added `createNotification` to `notificationService.js` and called it in `addApplication` (`App.js`), so every new application adds a "received" notification to state. I also added an unread-count badge to the navbar, calculated from the same state with `countUnread`. While testing I also made the Notifications page safe when an application is missing (it shows a 🔔 instead of crashing). Xin Rui built the saving of new applications and the duplicate check, and I merged my changes with hers.
 
 **Commits / PRs:**
 - [PR #7](https://github.com/25040104-xr/cca-track/pull/7): Part B pages (My Applications, Application Detail, Notifications) and mock data
-- [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fixes, students.js, tests, README)
+- [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fix, README)
+
+**AI use:** Claude (AI) helped me test my pages, find bugs, merge my branch with main, and draft this README section. I reviewed all changes and can explain them.
  
 
 ### [Su]: Individual Contribution

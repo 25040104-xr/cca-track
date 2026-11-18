@@ -1,10 +1,6 @@
 import { useState } from "react";
-import {
-  getMyApplications,
-  isInProgress,
-  isOverdue,
-  CURRENT_STUDENT_ID,
-} from "../services/applicationService";
+import { getMyApplications, isInProgress, isOverdue } from "../services/applicationService";
+import { CURRENT_STUDENT_ID } from "../data/currentUser";
 import { getCCAById } from "../services/ccaService";
 import ApplicationCard from "../components/ApplicationCard";
 import FilterBar from "../components/FilterBar";
