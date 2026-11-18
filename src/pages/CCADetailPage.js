@@ -3,8 +3,10 @@ import { getCategoryStyle } from "../utils/categoryColors";
 import CCABanner from "../components/CCABanner";
 import TagList from "../components/TagList";
 import Emoji3D from "../components/Emoji3D";
+import { findExistingApplication } from "../utils/createApplication";
+import { CURRENT_STUDENT_ID } from "../data/currentUser";
 
-function CCADetailPage({ ccaId, navigate }) {
+function CCADetailPage({ ccaId, applications, navigate }) {
   const cca = getCCAById(ccaId);
 
   if (!cca) {
@@ -21,6 +23,7 @@ function CCADetailPage({ ccaId, navigate }) {
   }
 
   const categoryStyle = getCategoryStyle(cca.category);
+  const existing = findExistingApplication(applications, CURRENT_STUDENT_ID, cca.id);
 
   return (
     <div className="page">
@@ -38,6 +41,7 @@ function CCADetailPage({ ccaId, navigate }) {
       </div>
 
       <div className="detail-layout">
+        {/* Left: About + What you'll do */}
         <div className="detail-main">
           <section className="detail-section">
             <h2>About</h2>
@@ -56,6 +60,7 @@ function CCADetailPage({ ccaId, navigate }) {
           )}
         </div>
 
+        {/* Right: key details + Apply button */}
         <aside className="detail-side">
           <h2>Details</h2>
           <ul className="detail-list">
@@ -99,12 +104,21 @@ function CCADetailPage({ ccaId, navigate }) {
             </li>
           </ul>
 
-          <button
-            className="btn btn-primary btn-large"
-            onClick={() => navigate("apply", { ccaId: cca.id })}
-          >
-            Apply now
-          </button>
+          {existing ? (
+            <button
+              className="btn btn-large"
+              onClick={() => navigate("applicationDetail", { applicationId: existing.id })}
+            >
+              Already applied · View status
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary btn-large"
+              onClick={() => navigate("apply", { ccaId: cca.id })}
+            >
+              Apply now
+            </button>
+          )}
         </aside>
       </div>
     </div>

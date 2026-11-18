@@ -14,6 +14,8 @@ function App() {
   const [role, setRole] = useState("student");
   const [page, setPage] = useState("directory");
   const [params, setParams] = useState({});
+
+  // Shared data: kept here so every page sees the same, up-to-date list
   const [applications, setApplications] = useState(applicationData);
   const [notifications, setNotifications] = useState(notificationData);
 
@@ -27,15 +29,33 @@ function App() {
     navigate(newRole === "student" ? "directory" : "applicants");
   }
 
+  // Called by the apply form: puts the new application at the top of the list
+  function addApplication(newApplication) {
+    setApplications([newApplication, ...applications]);
+  }
+
   function renderPage() {
     switch (page) {
       // ----- Student pages -----
       case "directory":
         return <CCADirectoryPage navigate={navigate} />;
       case "ccaDetail":
-        return <CCADetailPage ccaId={params.ccaId} navigate={navigate} />;
+        return (
+          <CCADetailPage
+            ccaId={params.ccaId}
+            applications={applications}
+            navigate={navigate}
+          />
+        );
       case "apply":
-        return <ApplyFormPage ccaId={params.ccaId} navigate={navigate} />;
+        return (
+          <ApplyFormPage
+            ccaId={params.ccaId}
+            applications={applications}
+            addApplication={addApplication}
+            navigate={navigate}
+          />
+        );
       case "myApplications":
         return (
           <MyApplicationsPage applications={applications} navigate={navigate} />
