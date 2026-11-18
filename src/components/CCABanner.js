@@ -1,4 +1,4 @@
-import { getCategoryColor } from "../utils/categoryColors";
+import Emoji3D from "./Emoji3D";
 
 function CCABanner({ cca, size = "small" }) {
   // Show the real photo if the CCA has one
@@ -12,14 +12,12 @@ function CCABanner({ cca, size = "small" }) {
     );
   }
 
-  // Otherwise show a coloured banner with the CCA's emoji
+  // Otherwise show the CCA's 3D illustration
   return (
-    <div
-      className={`cca-banner cca-banner-${size}`}
-      style={{ background: getCategoryColor(cca.category) }}
-      aria-hidden="true"
-    >
-      <span className="cca-banner-emoji">{cca.emoji}</span>
+    <div className={`cca-banner cca-banner-${size}`} aria-hidden="true">
+      <span className="banner-art">
+        <Emoji3D emoji={cca.emoji} size={size === "large" ? 190 : 118} />
+      </span>
     </div>
   );
 }

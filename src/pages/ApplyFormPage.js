@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getCCAById } from "../services/ccaService";
 import { validateApplication } from "../utils/validation";
 import FormField from "../components/FormField";
@@ -6,19 +6,14 @@ import FormField from "../components/FormField";
 const emptyForm = { phone: "", experience: "", reason: "", agree: false };
 
 function ApplyFormPage({ ccaId, navigate }) {
-  const [cca, setCca] = useState(null);
+  const cca = getCCAById(ccaId);
   const [values, setValues] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    getCCAById(ccaId).then((data) => setCca(data));
-  }, [ccaId]);
-
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setValues({ ...values, [name]: type === "checkbox" ? checked : value });
-    // Clear this field's error once the user starts fixing it
     if (errors[name]) {
       setErrors({ ...errors, [name]: undefined });
     }
@@ -34,7 +29,16 @@ function ApplyFormPage({ ccaId, navigate }) {
   }
 
   if (!cca) {
-    return <p className="page">Loading...</p>;
+    return (
+      <div className="page">
+        <div className="no-results">
+          <h3>Sorry, this CCA could not be found.</h3>
+          <button className="btn btn-primary" onClick={() => navigate("directory")}>
+            Back to CCAs
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (submitted) {
