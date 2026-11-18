@@ -1,3 +1,5 @@
+import { TODAY } from "./dates";
+
 // Turns a Date into "YYYY-MM-DD" (the date format used in applications.js)
 function toDateString(date) {
   const year = date.getFullYear();
@@ -6,10 +8,12 @@ function toDateString(date) {
   return `${year}-${month}-${day}`;
 }
 
-// Builds a new application object in the same format as applications.js
+// Builds a new application object in the same format as applications.js.
+// Uses TODAY from dates.js (fixed for CA1) so every date in the app matches.
+// In CA2, the backend will set the real date instead.
 export function createApplication(studentId, cca, values) {
-  const today = new Date();
-  const replyBy = new Date();
+  const today = new Date(TODAY + "T00:00:00");
+  const replyBy = new Date(TODAY + "T00:00:00");
   replyBy.setDate(today.getDate() + cca.responseDays);
 
   const todayString = toDateString(today);
