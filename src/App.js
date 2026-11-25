@@ -8,6 +8,7 @@ import MyApplicationsPage from "./pages/MyApplicationsPage";
 import ApplicationDetailPage from "./pages/ApplicationDetailPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ApplicantListPage from "./pages/ApplicantListPage";
+import ApplicantDetailPage from "./pages/ApplicantDetailPage";
 import { applicationData } from "./data/applications";
 import { notificationData } from "./data/notifications";
 import { CURRENT_STUDENT_ID } from "./data/currentUser";
@@ -106,6 +107,17 @@ function App() {
              // ----- Exco pages -----
       case "applicants":
         return <ApplicantListPage applications={applications} navigate={navigate} />;
+              case "applicantDetail":
+        return (
+          <ApplicantDetailPage
+            applicationId={params.applicationId}
+            applications={applications}
+            setApplications={setApplications}
+            notifications={notifications}
+            setNotifications={setNotifications}
+            navigate={navigate}
+          />
+        );
 
       // ----- Pages not built yet -----
       default:
