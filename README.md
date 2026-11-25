@@ -311,6 +311,8 @@ I asked two classmates to try the CCA directory and details page, then made chan
 | Issue found | What I changed | Why |
 |---|---|---|
 | While testing the Applicants page, overdue applicants were mixed in with everyone else, so I had to scroll to find the urgent ones. | Sorted the list so overdue applicants always appear at the top, using `sort` with `isOverdue()`. | "Pending too long" is the main thing excos need to act on, so it should be the first thing they see. |
+| The text, number and date inputs on my exco pages looked plain and small next to the styled dropdowns, and didn't turn red on errors. | Added styles in `exco.css` so these inputs match the rest of the form, including the blue focus outline and the red error border. | Consistent fields look more professional and make errors easier to notice. |
+| While testing, I picked a past date for a reply date and it was accepted. The app uses a fixed date (18 Nov 2026) as "today", so dates that were already past in real life still counted as future. The date picker also let me choose any old date and only showed an error after submitting. | Added `min={TODAY}` to both date inputs so earlier dates are greyed out, and a hint showing which date the prototype treats as today. Kept the validation check as well. | Excos should not be able to give students a reply date that has already passed, and the hint removes the confusion about which date counts as today. |
 
 **Commits / PRs:**
 - *(add PR link here after merging)*
