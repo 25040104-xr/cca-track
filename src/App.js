@@ -9,6 +9,7 @@ import ApplicationDetailPage from "./pages/ApplicationDetailPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ApplicantListPage from "./pages/ApplicantListPage";
 import ApplicantDetailPage from "./pages/ApplicantDetailPage";
+import ManageCCAPage from "./pages/ManageCCAPage";
 import { applicationData } from "./data/applications";
 import { notificationData } from "./data/notifications";
 import { CURRENT_STUDENT_ID } from "./data/currentUser";
@@ -118,6 +119,8 @@ function App() {
             navigate={navigate}
           />
         );
+        case "manageCca":
+          return <ManageCCAPage />;
 
       // ----- Pages not built yet -----
       default:
