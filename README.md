@@ -315,7 +315,7 @@ I asked two classmates to try the CCA directory and details page, then made chan
 | While testing, I picked a past date for a reply date and it was accepted. The app uses a fixed date (18 Nov 2026) as "today", so dates that were already past in real life still counted as future. The date picker also let me choose any old date and only showed an error after submitting. | Added `min={TODAY}` to both date inputs so earlier dates are greyed out, and a hint showing which date the prototype treats as today. Kept the validation check as well. | Excos should not be able to give students a reply date that has already passed, and the hint removes the confusion about which date counts as today. |
 
 **Commits / PRs:**
-- *(add PR link here after merging)*
+- [PR #13](https://github.com/25040104-xr/cca-track/pull/13): Part C exco pages (Applicant List, Applicant Detail, Manage CCA)
 
 ---
 
