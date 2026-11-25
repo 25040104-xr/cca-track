@@ -29,7 +29,10 @@ function ApplicantListPage({ applications, navigate }) {
     return true; // "All"
   }
 
-  const shownApplications = activeApplications.filter(matchesFilter);
+    // Show overdue applicants first so excos see the urgent ones straight away
+  const shownApplications = activeApplications
+    .filter(matchesFilter)
+    .sort((a, b) => (isOverdue(b) ? 1 : 0) - (isOverdue(a) ? 1 : 0));
 
   function handleSelect(id) {
     navigate("applicantDetail", { applicationId: id });
