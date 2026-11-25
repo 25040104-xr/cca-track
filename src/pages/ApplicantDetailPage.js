@@ -181,11 +181,17 @@ function ApplicantDetailPage({ applicationId, applications, setApplications, not
                 </FormField>
 
                 {showReplyDate && (
-                  <FormField label="Expect a reply by" htmlFor="expectedReplyBy" error={errors.expectedReplyBy}>
+                 <FormField
+                    label="Expect a reply by"
+                    htmlFor="expectedReplyBy"
+                    error={errors.expectedReplyBy}
+                    hint={"Today is " + formatDate(TODAY) + " in this prototype."}
+                  >
                     <input
                       type="date"
                       id="expectedReplyBy"
                       name="expectedReplyBy"
+                      min={TODAY}
                       value={values.expectedReplyBy}
                       onChange={handleChange}
                     />

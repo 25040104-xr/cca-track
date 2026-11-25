@@ -295,7 +295,25 @@ I asked two classmates to try the CCA directory and details page, then made chan
 - [PR #10](https://github.com/25040104-xr/cca-track/pull/10): improvements after testing (received notification, unread badge, Notifications page fixes, README)
 
 ### Su: Individual Contribution
-*(to be filled in by Su)*
+
+**Contribution summary:** I built Part C, the exco side of the app:
+- **Pages:** `ApplicantListPage`, `ApplicantDetailPage`, `ManageCCAPage`
+- **Components:** `ApplicantRow`, `ConfirmDialog`, `EmptyState`
+- **Data and styles:** `data/students.js`, `data/trialSessions.js`, `styles/exco.css`
+- **Integration:** added the three exco pages to `App.js`. When an exco updates a status, the application is updated in the shared `applications` state and a notification is added to `notifications`, so the student sees it in My Applications and Notifications straight away.
+
+**React concepts used:** state for filters, form values, errors and the confirm dialog; controlled forms with one `handleChange` for every field; validation that returns an `errors` object; updating arrays immutably with `map`, `filter` and spread; passing functions as props (`onSelect`, `onConfirm`, `onCancel`, `navigate`); lists rendered with `map`; conditional rendering (overdue alerts, empty states, reply date field only for in-progress statuses, confirm dialog, success messages).
+
+**Code explanation video:** *(link)*. Topic: how `ApplicantDetailPage` validates the status form, asks for confirmation with `ConfirmDialog`, then updates the application and notifies the student.
+
+**Improvement notes**
+
+| Issue found | What I changed | Why |
+|---|---|---|
+| While testing the Applicants page, overdue applicants were mixed in with everyone else, so I had to scroll to find the urgent ones. | Sorted the list so overdue applicants always appear at the top, using `sort` with `isOverdue()`. | "Pending too long" is the main thing excos need to act on, so it should be the first thing they see. |
+
+**Commits / PRs:**
+- *(add PR link here after merging)*
 
 ---
 

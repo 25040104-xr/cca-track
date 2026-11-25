@@ -119,3 +119,32 @@
   font-weight: 700;
   color: var(--text-muted);
 }
+/* ===== Make text, number and date inputs match the other fields ===== */
+.form-field input[type="text"],
+.form-field input:not([type]),
+.form-field input[type="number"],
+.form-field input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--grey-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-small);
+}
+.form-field input:not([type]):focus,
+.form-field input[type="number"]:focus,
+.form-field input[type="date"]:focus {
+  outline: none;
+  background: white;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px var(--blue-light);
+}
+.form-field.has-error input:not([type]),
+.form-field.has-error input[type="number"],
+.form-field.has-error input[type="date"] {
+  border-color: var(--danger);
+  background: #fff5f5;
+}

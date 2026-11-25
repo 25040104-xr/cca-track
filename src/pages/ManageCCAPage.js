@@ -214,8 +214,13 @@ function ManageCCAPage() {
 
           <h3>Add a trial session</h3>
           <form onSubmit={handleAddTrial} noValidate>
-            <FormField label="Date" htmlFor="trialDate" error={trialErrors.date}>
-              <input type="date" id="trialDate" name="date" value={newTrial.date} onChange={handleTrialChange} />
+            <FormField
+              label="Date"
+              htmlFor="trialDate"
+              error={trialErrors.date}
+              hint={"Today is " + formatDate(TODAY) + " in this prototype."}
+            >
+              <input type="date" id="trialDate" name="date" min={TODAY} value={newTrial.date} onChange={handleTrialChange} />
             </FormField>
             <FormField label="Time" htmlFor="trialTime" error={trialErrors.time}>
               <input id="trialTime" name="time" placeholder="e.g. 6:30pm" value={newTrial.time} onChange={handleTrialChange} />
