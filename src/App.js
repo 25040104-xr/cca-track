@@ -7,6 +7,7 @@ import ApplyFormPage from "./pages/ApplyFormPage";
 import MyApplicationsPage from "./pages/MyApplicationsPage";
 import ApplicationDetailPage from "./pages/ApplicationDetailPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import ApplicantListPage from "./pages/ApplicantListPage";
 import { applicationData } from "./data/applications";
 import { notificationData } from "./data/notifications";
 import { CURRENT_STUDENT_ID } from "./data/currentUser";
@@ -102,6 +103,9 @@ function App() {
             navigate={navigate}
           />
         );
+             // ----- Exco pages -----
+      case "applicants":
+        return <ApplicantListPage applications={applications} navigate={navigate} />;
 
       // ----- Pages not built yet -----
       default:

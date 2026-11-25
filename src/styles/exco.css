@@ -1,0 +1,63 @@
+/* ===== Exco pages (Part C) ===== */
+.applicant-count {
+  margin: -8px 0 16px;
+  color: var(--text-muted);
+}
+
+.exco-alert {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  background: var(--accent-light);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius-small);
+}
+
+.applicant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.applicant-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+}
+.applicant-row:hover {
+  border-color: var(--text);
+}
+.applicant-row.overdue {
+  border-color: var(--accent);
+}
+
+.applicant-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.applicant-sub,
+.applicant-date {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.overdue-flag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+/* On phones, let the row wrap onto two lines */
+@media (max-width: 560px) {
+  .applicant-row {
+    flex-wrap: wrap;
+  }
+  .applicant-main {
+    flex-basis: 100%;
+  }
+}
