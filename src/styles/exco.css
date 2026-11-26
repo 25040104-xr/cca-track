@@ -1,0 +1,150 @@
+/* ===== Exco pages (Part C) ===== */
+.applicant-count {
+  margin: -8px 0 16px;
+  color: var(--text-muted);
+}
+
+.exco-alert {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  background: var(--accent-light);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius-small);
+}
+
+.applicant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.applicant-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+}
+.applicant-row:hover {
+  border-color: var(--text);
+}
+.applicant-row.overdue {
+  border-color: var(--accent);
+}
+
+.applicant-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.applicant-sub,
+.applicant-date {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.overdue-flag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+/* On phones, let the row wrap onto two lines */
+@media (max-width: 560px) {
+  .applicant-row {
+    flex-wrap: wrap;
+  }
+  .applicant-main {
+    flex-basis: 100%;
+  }
+}
+
+/* ===== Confirm dialog ===== */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.4);
+}
+.dialog-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  background: white;
+  border-radius: var(--radius);
+}
+.dialog-box h3 {
+  margin: 0 0 8px;
+}
+.dialog-box p {
+  margin: 0 0 20px;
+  color: var(--text-muted);
+}
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ===== Manage CCA: trial sessions ===== */
+.trial-list {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+}
+.trial-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.trial-item p {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+}
+.trial-item.past {
+  opacity: 0.55;
+}
+.trial-past-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+/* ===== Make text, number and date inputs match the other fields ===== */
+.form-field input[type="text"],
+.form-field input:not([type]),
+.form-field input[type="number"],
+.form-field input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--grey-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-small);
+}
+.form-field input:not([type]):focus,
+.form-field input[type="number"]:focus,
+.form-field input[type="date"]:focus {
+  outline: none;
+  background: white;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px var(--blue-light);
+}
+.form-field.has-error input:not([type]),
+.form-field.has-error input[type="number"],
+.form-field.has-error input[type="date"] {
+  border-color: var(--danger);
+  background: #fff5f5;
+}
